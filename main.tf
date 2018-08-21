@@ -2,7 +2,7 @@ data "vault_generic_secret" "azure" {
     path = "${var.vault_azure_credentials_path}"
 }
 
-resource "template_file" "packer_config" {
+data "template_file" "packer_config" {
   vars = {
       ARM_CLIENT_ID = "${data.vault_generic_secret.azure.data["client_id"]}"
       ARM_CLIENT_SECRET = "${data.vault_generic_secret.azure.data["client_secret"]}"
@@ -18,7 +18,7 @@ resource "template_file" "packer_config" {
 
 resource "null_resource" "packer_build" {
   triggers = {
-      template_file   =  "${template_file.packer_config.rendered}"
+      template_file   =  "${data.template_file.packer_config.rendered}"
   }
 
   provisioner "local-exec" {
@@ -28,7 +28,7 @@ resource "null_resource" "packer_build" {
       command = "unzip -d ${path.root} ${path.root}/packer.zip"
   }
   provisioner "local-exec" {
-    command =  "echo '${template_file.packer_config.rendered}' > ${path.root}/${var.service_name}-packer.json",
+    command =  "echo '${data.template_file.packer_config.rendered}' > ${path.root}/${var.service_name}-packer.json",
   }
 
   provisioner "local-exec" {
