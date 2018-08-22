@@ -10,6 +10,10 @@ data "terraform_remote_state" "network" {
   }
 }
 
+locals {
+    packer_location = "${join("_", data.terraform_remote_state.network.location)}"
+}
+
 data "template_file" "packer_config" {
   vars = {
       ARM_CLIENT_ID = "${data.vault_generic_secret.azure.data["client_id"]}"
@@ -18,7 +22,7 @@ data "template_file" "packer_config" {
       ARM_TENANT_ID = "${data.vault_generic_secret.azure.data["tenant_id"]}"
       SERVICE_NAME = "${var.service_name}"
       SERVICE_VERSION = "${var.service_version}"
-      LOCATION = "${data.terraform_remote_state.network.location}"
+      LOCATION = "${local.packer_location}"
       LOCAL_SALT_TREE = "${path.module}/salt"
   }
   template = "${file("${path.module}/templates/packer.json.tpl")}"
