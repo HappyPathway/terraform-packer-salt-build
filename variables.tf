@@ -9,7 +9,3 @@ variable "service_name" {
 variable "service_version" {
   
 }
-
-variable "azure_location" {
-  
-}
