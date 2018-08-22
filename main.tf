@@ -11,7 +11,7 @@ data "terraform_remote_state" "network" {
 }
 
 locals {
-    packer_location = "${join("_", data.terraform_remote_state.network.location)}"
+    packer_location = "${join("_", split(" ", data.terraform_remote_state.network.location))}"
 }
 
 data "template_file" "packer_config" {
