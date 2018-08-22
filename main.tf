@@ -60,7 +60,7 @@ resource "null_resource" "packer_build" {
 
 
 data "azurerm_image" "image" {
-  name                = "${var.service_name}-${var.service_version}"
+  name                = "${var.service_name}-${var.service_version}-${local.packer_location}"
   resource_group_name = "PackerConfigs"
   depends_on = [
       "null_resource.packer_build"
