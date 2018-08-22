@@ -22,7 +22,8 @@ data "template_file" "packer_config" {
       ARM_TENANT_ID = "${data.vault_generic_secret.azure.data["tenant_id"]}"
       SERVICE_NAME = "${var.service_name}"
       SERVICE_VERSION = "${var.service_version}"
-      LOCATION = "${local.packer_location}"
+      LOCATION_NAME = "${local.packer_location}"
+      LOCATION = "${data.terraform_remote_state.network.location}"
       LOCAL_SALT_TREE = "${path.module}/salt"
   }
   template = "${file("${path.module}/templates/packer.json.tpl")}"
