@@ -7,6 +7,7 @@
         "service_name": "${SERVICE_NAME}",
         "service_version": "${SERVICE_VERSION}",
         "location": "${LOCATION}",
+        "location_name": "${LOCATION_NAME}",
         "working_dir": "{{env `PWD`}}",
         "home_dir": "{{env `HOME`}}",
         "local_salt_tree": "${LOCAL_SALT_TREE}"
@@ -26,7 +27,7 @@
             "image_sku": "14.04.4-LTS",
 
             "managed_image_resource_group_name": "PackerConfigs",
-            "managed_image_name": "{{user `service_name`}}-{{user `service_version`}}-{{user `location`}}",
+            "managed_image_name": "{{user `service_name`}}-{{user `service_version`}}-{{user `location_name`}}",
 
             "azure_tags": {
                 "service": "{{user `service_name` }}",
