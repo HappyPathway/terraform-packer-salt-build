@@ -26,7 +26,7 @@
             "image_sku": "14.04.4-LTS",
 
             "managed_image_resource_group_name": "PackerConfigs",
-            "managed_image_name": "{{user `service_name`}}-{{user `service_version`}}",
+            "managed_image_name": "{{user `service_name`}}-{{user `service_version`}}-{{user `location`}}",
 
             "azure_tags": {
                 "service": "{{user `service_name` }}",
