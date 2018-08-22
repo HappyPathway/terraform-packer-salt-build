@@ -40,7 +40,7 @@ resource "null_resource" "packer_build" {
   }
 
   provisioner "local-exec" {
-      command = "${path.root}/packer build ${path.root}/${var.service_name}-packer.json"
+      command = "${path.root}/packer build -force ${path.root}/${var.service_name}-packer.json"
   }
 
   provisioner "local-exec" {
