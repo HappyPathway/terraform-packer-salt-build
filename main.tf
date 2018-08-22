@@ -2,6 +2,14 @@ data "vault_generic_secret" "azure" {
     path = "${var.vault_azure_credentials_path}"
 }
 
+data "terraform_remote_state" "network" {
+  backend = "atlas"
+
+  config {
+    name = "${var.organization}/${var.network_ws}"
+  }
+}
+
 data "template_file" "packer_config" {
   vars = {
       ARM_CLIENT_ID = "${data.vault_generic_secret.azure.data["client_id"]}"
@@ -10,7 +18,7 @@ data "template_file" "packer_config" {
       ARM_TENANT_ID = "${data.vault_generic_secret.azure.data["tenant_id"]}"
       SERVICE_NAME = "${var.service_name}"
       SERVICE_VERSION = "${var.service_version}"
-      LOCATION = "${var.azure_location}"
+      LOCATION = "${data.terraform_remote_state.network.location}"
       LOCAL_SALT_TREE = "${path.module}/salt"
   }
   template = "${file("${path.module}/templates/packer.json.tpl")}"
